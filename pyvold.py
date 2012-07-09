@@ -25,15 +25,20 @@ def getKey(request):
 	vold_resp = client.get(key)
 	# Take the first response, ignore versioning for now
 	str_vold_resp = vold_resp[0][0] if vold_resp else None;
-	return Response(str_vold_resp + "\n")
+	return Response(str_vold_resp + "\n" if str_vold_resp else 'not found\n')
 
 @view_config(route_name='kvroute', request_method='POST', renderer='text', http_cache=0)
-def putKey(request):
+def postKey(request):
 	if not request.POST:
 		return Response("Error: no key/value specified\n")
 	key, value = [str(x) for x in request.POST.items()[0]]
 	client.put(key, value)
 	return Response(key + " => " + value + "\n")
+
+@view_config(route_name='kvroute', request_method='PUT', renderer='text', http_cache=0)
+def putKey(request):
+	# We don't distinguish create and update
+	return postKey(request)
 
 @view_config(route_name='kvroute', request_method='DELETE', renderer='text', http_cache=0)
 def delKey(request):
