@@ -15,33 +15,33 @@ def getGETKey(request):
 	# take the first arg as key to read
 	return str(request.GET.keys()[0]) if request.GET else None
 
-@view_config(route_name='kvroute', request_method='GET', renderer='json', http_cache=0)
+@view_config(route_name='kvroute', request_method='GET', renderer='text', http_cache=0)
 def getKey(request):
 	key = getGETKey(request)
 	# if no key given, key blank, etc.
 	if not key:
-		return Response("Welcome to pyvold!")
+		return Response("Welcome to pyvold!\n")
 	
 	vold_resp = client.get(key)
 	# Take the first response, ignore versioning for now
 	str_vold_resp = vold_resp[0][0] if vold_resp else None;
-	return Response(json.dumps(str_vold_resp))
+	return Response(str_vold_resp + "\n")
 
-@view_config(route_name='kvroute', request_method='POST', renderer='json', http_cache=0)
+@view_config(route_name='kvroute', request_method='POST', renderer='text', http_cache=0)
 def putKey(request):
 	if not request.POST:
-		return Response("Error: no key/value specified")
+		return Response("Error: no key/value specified\n")
 	key, value = [str(x) for x in request.POST.items()[0]]
 	client.put(key, value)
-	return Response(key + " => " + value)
+	return Response(key + " => " + value + "\n")
 
-@view_config(route_name='kvroute', request_method='DELETE', renderer='json', http_cache=0)
+@view_config(route_name='kvroute', request_method='DELETE', renderer='text', http_cache=0)
 def delKey(request):
 	key = getGETKey(request)
 	if not key:
-		return Response("Error: no key/value specified")
+		return Response("Error: no key/value specified\n")
 	resp = client.delete(key)
-	return Response("deleted " + key) if resp else Response("not found")
+	return Response("deleted " + key + "\n") if resp else Response("not found\n")
 
 if __name__ == '__main__':
 	config = Configurator()
