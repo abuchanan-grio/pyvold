@@ -19,7 +19,7 @@ GET a value to get its current value
 Delete a value to remove that key
 
     $ curl -X DELETE http://localhost:8008?key
-    deleted key
+    deleted 'key'
 
 
 *Potential additions*: Fleshing out the RESTfulness by making better use of HTTP response codes when values aren't found, errors, etc.
