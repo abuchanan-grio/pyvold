@@ -33,6 +33,7 @@ def postKey(request):
 		return Response("Error: no key/value specified\n")
 	key, value = [str(x) for x in request.POST.items()[0]]
 	client.put(key, value)
+	print key + " => " + value
 	return Response(key + " => " + value + "\n")
 
 @view_config(route_name='kvroute', request_method='PUT', renderer='text', http_cache=0)
