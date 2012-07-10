@@ -2,11 +2,8 @@ from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response
 from pyramid.view import view_config
-import json
 
 import voldemort
-
-from IPython import embed
 
 # connection to Voldemort
 client = voldemort.StoreClient('test', [('localhost', 6666)])
@@ -30,7 +27,7 @@ def getKey(request):
 @view_config(route_name='kvroute', request_method='POST', renderer='text', http_cache=0)
 def postKey(request):
 	if not request.POST:
-		return Response("Error: no key/value specified\n")
+		return Response("Error: no key specified\n")
 	key, value = [str(x) for x in request.POST.items()[0]]
 	client.put(key, value)
 	print key + " => " + value
@@ -45,9 +42,9 @@ def putKey(request):
 def delKey(request):
 	key = getGETKey(request)
 	if not key:
-		return Response("Error: no key/value specified\n")
+		return Response("Error: no key specified\n")
 	resp = client.delete(key)
-	return Response("deleted " + key + "\n") if resp else Response("not found\n")
+	return Response("deleted '" + key + "'\n") if resp else Response("not found\n")
 
 if __name__ == '__main__':
 	config = Configurator()
