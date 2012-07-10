@@ -1,7 +1,8 @@
 Pyvold is a simple [Pyramid](http://docs.pylonsproject.org/en/latest/docs/pyramid.html)-based wrapper around [Voldemort](http://project-voldemort.com/) providing a clientless RESTful API.
 
 ---
-=The API=
+
+###The API###
 
 POST or PUT a value to set or modify it:
 
