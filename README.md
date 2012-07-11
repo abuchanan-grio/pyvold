@@ -44,6 +44,27 @@ Pyvold is a simple [Pyramid](http://docs.pylonsproject.org/en/latest/docs/pyrami
 
 * That should do it.
 
+###Startup and shutdown###
+
+This is for reference for the second+ time around, the installation process includes starting both of these.
+
+Startup:
+
+    $ cd env
+    $ cd voldemort-0.90.1
+    $ ./bin/voldemort-server.sh config/single_node_cluster 2>&1 > ../voldemort.log &
+    $ cd ..
+    $ ./bin/python pyvold/pyvold.py 2>&1 >pyvold.log &
+
+Shutdown:
+
+    $ cd env/voldemort-0.90.1
+    $ ./bin/voldemort-stop.sh
+    $ # and then just send pyvold a SIGHUP however makes you happy, e.g.,
+    $ fg
+    ^C  # if you haven't changed terminals, or
+    $ killall python    # if you don't have any other python processes you need running
+    
 ###The API###
 
 POST or PUT a value to set or modify it:
