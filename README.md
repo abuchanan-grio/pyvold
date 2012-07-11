@@ -16,7 +16,7 @@ Pyvold is a simple [Pyramid](http://docs.pylonsproject.org/en/latest/docs/pyrami
         $ curl -O http://cloud.github.com/downloads/voldemort/voldemort/voldemort-0.90.1.tar.gz
         $ tar -xzf voldemort-0.90.1.tar.gz
         $ cd voldemort-0.90.1
-        $ ./bin/voldemort-server.sh config/single_node_cluster 2>&1 > voldemort.log &
+        $ ./bin/voldemort-server.sh config/single_node_cluster 2>&1 > ../voldemort.log &
         $ cd ..
 
 * Install the Voldemort python client in the virtualenv following [the instructions in their README](https://github.com/voldemort/voldemort/tree/release-090/clients/python):
