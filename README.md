@@ -2,6 +2,48 @@ Pyvold is a simple [Pyramid](http://docs.pylonsproject.org/en/latest/docs/pyrami
 
 ---
 
+###Installation###
+
+* Install Pyramid following the [directions on their site](http://docs.pylonsproject.org/projects/pyramid/en/1.3-branch/narr/install.html#installing-pyramid-on-a-unix-system), which more or less boil down to:
+
+        $ sudo easy_install virtualenv  # if you don't already have it
+        $ virtualenv --no-site-packages env
+        $ cd env
+        $ ./bin/easy_install pyramid
+
+* Install and start Voldemort following [their quickstart guide](http://project-voldemort.com/quickstart.php), which boils down to:
+
+        $ curl -O http://cloud.github.com/downloads/voldemort/voldemort/voldemort-0.90.1.tar.gz
+        $ tar -xzf voldemort-0.90.1.tar.gz
+        $ cd voldemort-0.90.1
+        $ ./bin/voldemort-server.sh config/single_node_cluster 2>&1 > voldemort.log &
+        $ cd ..
+
+* Install the Voldemort python client in the virtualenv following [the instructions in their README](https://github.com/voldemort/voldemort/tree/release-090/clients/python):
+
+    * Install Google protobuf > 2.3.0
+    
+            $ # (in the env directory from above)
+            $ curl -O https://protobuf.googlecode.com/files/protobuf-2.4.1.tar.bz2
+            $ tar -xzf protobuf-2.4.1.tar.bz2 
+            $ cd protobuf-2.4.1
+            $ ./configure $(dirname $(pwd)) && make && make check && make install
+        
+    * Install the voldemort python client itself
+  
+            $ cd ../voldemort-0.90.1 # (back in the voldemort directory)
+            $ cd clients/python
+            $ ../../../bin/python setup.py install
+            $ cd ../../..
+
+* Install and run pyvold:
+
+        $ # (in the env directory from above)
+        $ git clone git://github.com/abuchanan-grio/pyvold.git
+        $ ./bin/python pyvold/pyvold.py 2>&1 >pyvold.log &
+
+* That should do it.
+
 ###The API###
 
 POST or PUT a value to set or modify it:
