@@ -44,7 +44,7 @@ Pyvold is a simple [Pyramid](http://docs.pylonsproject.org/en/latest/docs/pyrami
 
 * That should do it.
 
-###Startup and shutdown###
+###Startup, shutdown and reset###
 
 This is for reference for the second+ time around, the installation process includes starting both of these.
 
@@ -64,7 +64,12 @@ Shutdown:
     $ fg
     ^C  # if you haven't changed terminals, or
     $ killall python    # if you don't have any other python processes you need running
-    
+
+Resetting the data in Voldemort:
+
+    $ cd env/voldemort-0.90.1
+    $ ./bin/voldemort-admin-tool.sh --truncate test --url tcp://localhost:6666
+
 ###The API###
 
 POST or PUT a value to set or modify it:
