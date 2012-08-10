@@ -8,20 +8,20 @@ import voldemort
 # connection to Voldemort
 client = voldemort.StoreClient('test', [('localhost', 6666)])
 
-def getGETKey(request):
+def getGETKeys(request):
 	# take the first arg as key to read
-	return str(request.GET.keys()[0]) if request.GET else None
+	return map(str, request.GET.keys()) if request.GET else None
 
 @view_config(route_name='kvroute', request_method='GET', renderer='text', http_cache=0)
-def getKey(request):
-	key = getGETKey(request)
+def getKeys(request):
+	keys = getGETKeys(request)
 	# if no key given, key blank, etc.
-	if not key:
+	if not keys:
 		return Response("Welcome to pyvold!\n")
-	
-	vold_resp = client.get(key)
-	# Take the first response, ignore versioning for now
-	str_vold_resp = vold_resp[0][0] if vold_resp else None;
+	vold_resp = client.get_all(keys)
+	# Take the first value(s), ignore versioning for now
+	str_vold_resp = str(dict([(key, vold_resp[key][0][0]) for key in vold_resp])) if vold_resp else None;
+	print(str_vold_resp)
 	return Response(str_vold_resp + "\n" if str_vold_resp else 'not found\n')
 
 @view_config(route_name='kvroute', request_method='POST', renderer='text', http_cache=0)
@@ -40,7 +40,7 @@ def putKey(request):
 
 @view_config(route_name='kvroute', request_method='DELETE', renderer='text', http_cache=0)
 def delKey(request):
-	key = getGETKey(request)
+	key = getGETKeys(request)
 	if not key:
 		return Response("Error: no key specified\n")
 	resp = client.delete(key)
