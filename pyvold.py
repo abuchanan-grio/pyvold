@@ -1,3 +1,5 @@
+import json
+
 from wsgiref.simple_server import make_server
 from pyramid.config import Configurator
 from pyramid.response import Response
@@ -20,9 +22,9 @@ def getKeys(request):
 		return Response("Welcome to pyvold!\n")
 	vold_resp = client.get_all(keys)
 	# Take the first value(s), ignore versioning for now
-	str_vold_resp = str(dict([(key, vold_resp[key][0][0]) for key in vold_resp])) if vold_resp else None;
-	print(str_vold_resp)
-	return Response(str_vold_resp + "\n" if str_vold_resp else 'not found\n')
+	vold_resp_pruned = dict([(key, vold_resp[key][0][0]) for key in vold_resp]) if vold_resp else None;
+	print(vold_resp)
+	return Response(json.dumps(vold_resp_pruned))
 
 @view_config(route_name='kvroute', request_method='POST', renderer='text', http_cache=0)
 def postKey(request):
