@@ -42,9 +42,10 @@ def putKey(request):
 
 @view_config(route_name='kvroute', request_method='DELETE', renderer='text', http_cache=0)
 def delKey(request):
-	key = getGETKeys(request)
-	if not key:
-		return Response("Error: no key specified\n")
+	keys = getGETKeys(request)
+	if len(keys) != 1:
+		return Response("Error: no or 2+ keys specified\n")
+	key = keys.pop()
 	resp = client.delete(key)
 	return Response("deleted '" + key + "'\n") if resp else Response("not found\n")
 
