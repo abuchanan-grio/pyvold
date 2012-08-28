@@ -28,6 +28,8 @@ Pyvold is a simple [Pyramid](http://docs.pylonsproject.org/en/latest/docs/pyrami
             $ tar -xzf protobuf-2.4.1.tar.bz2 
             $ cd protobuf-2.4.1
             $ ./configure --prefix $(dirname $(pwd)) && make && make check && make install
+            $ cd python   # now install the python interface
+            $ ../../bin/python setup.py install
         
     * Install the voldemort python client itself
   
